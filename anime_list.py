@@ -5,26 +5,29 @@ anime_list = ("cowboy bebop, psycho-pass, attack on titan, Hunter x Hunter")
 
 anime_details = {
 'cowboy bebop':
-    {'genre' : 'space western',
-    'length' : '20 episodes'},
+    {'general': 'space western adventure',
+    'genre': 'space western',
+    'length': '20 episodes'},
 
 'psycho-pass':
-    {'genre' : 'action/crime'
-    'length' : '24 episodes'},
+    {'genre': 'action/crime',
+    'length': '24 episodes'},
 
 'attack on titan' :
-    {'genre' : 'thriller/drama'
-    'length' : '100 episodes'},
+    {'genre': 'thriller/drama',
+    'length': '100 episodes'},
 
 'Hunter x Hunter' :
-    {'genre' : 'adventure/action'
-    'length' : '150 episodes'},
+    {'genre': 'adventure/action',
+    'length': '150 episodes'}
 
     }
 
-anime_name = input("What show would you like to know about?" [anime_list] )
+print(*anime_list)
 
-value = anime_details.get(anime_name)
+anime_name = input("What show would you like to know about:" )
+
+value = anime_details.get(anime_name).get('general')
 
 print(f"{anime_name}: {value}")
 
