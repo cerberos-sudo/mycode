@@ -1,0 +1,182 @@
+import random
+import os
+import time
+ 
+def clear():
+    os.system("clear")
+ 
+# Set of instructions for Rock-Paper-Scissors
+def rps_instructions():
+ 
+    print()
+    print("Instructions for Rock-Paper-Scissors : ")
+    print()
+    print("Rock crushes Scissors")
+    print("Scissors cuts Paper")
+    print("Paper covers Rock")
+    print()
+ 
+def rps():
+     
+    global rps_table
+    global game_map
+    global name
+ 
+    # Game Loop for each game of Rock-Paper-Scissors
+    while True:
+ 
+        print("--------------------------------------")
+        print("\t\tMenu")
+        print("--------------------------------------")
+        print("Enter \"help\" for instructions")
+        print("Enter \"Rock\",\"Paper\",\"Scissors\" to play")
+        print("Enter \"exit\" to quit")
+        print("--------------------------------------")
+ 
+        print()
+ 
+        # Player Input
+        inp = input("Enter your move : ")
+ 
+        if inp.lower() == "help":
+            clear()
+            rps_instructions()
+            continue
+        elif inp.lower() == "exit":
+            clear()
+            break  
+        elif inp.lower() == "rock":
+            player_move = 0
+        elif inp.lower() == "paper":
+            player_move = 1    
+        elif inp.lower() == "scissors":
+            player_move = 2
+        else:
+            clear()
+            print("Wrong Input!!")
+            rps_instructions()  
+            continue
+ 
+        print("Computer making a move....")
+ 
+        print()
+        time.sleep(2)
+ 
+        # Get the computer move randomly
+        comp_move = random.randint(0, 2)
+ 
+        # Print the computer move
+        print("Computer chooses ", game_map[comp_move].upper())
+ 
+        # Find the winner of the match
+        winner = rps_table[player_move][comp_move]
+ 
+        # Declare the winner 
+        if winner == player_move:
+            print(name, "WINS!!!")
+        elif winner == comp_move:
+            print("COMPUTER WINS!!!")
+        else:
+            print("TIE GAME")
+ 
+        print()
+        time.sleep(2)
+        clear()
+        
+#Multiplayer
+def rps_multiplayer():
+
+    import socket
+       
+    host = '0.0.0.0'  # Listen on all network interfaces
+    port = 12345      # Choose a port number (make sure it's not used by other services)
+
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.bind((host, port))
+    server_socket.listen(1)
+
+    print(f"Server listening on {host}:{port}")
+
+    client_socket, client_address = server_socket.accept()
+    print(f"Connection from: {client_address}")
+
+    play_game(client_socket)
+
+    client_socket.close()
+    server_socket.close()
+
+def play_game(client_socket):
+    options = ['rock', 'paper', 'scissors']
+        
+    while True:
+        # Receive player's choice
+        client_choice = client_socket.recv(1024).decode().strip().lower()
+
+    if client_choice not in options:
+        client_socket.send("Invalid choice. Please choose rock, paper, or scissors.\n".encode())
+        
+
+        # Server's choice
+    import random
+    server_choice = random.choice(options)
+    client_socket.send(f"Server chooses: {server_choice}\n".encode())
+
+        # Determine winner
+    if client_choice == server_choice:
+        client_socket.send("It's a tie!\n".encode())
+    elif (client_choice == 'rock' and server_choice == 'scissors') or \
+        (client_choice == 'paper' and server_choice == 'rock') or \
+        (client_choice == 'scissors' and server_choice == 'paper'):
+        client_socket.send("You win!\n".encode())
+    else:
+        client_socket.send("Server wins!\n".encode())
+
+
+ 
+# The main function
+if __name__ == '__main__':
+ 
+    # The mapping between moves and numbers
+    game_map = {0:"rock", 1:"paper", 2:"scissors"}
+ 
+    # Win-lose matrix for traditional game
+    rps_table = [[-1, 1, 0], [1, -1, 2], [0, 2, -1]]
+ 
+ 
+     
+    name = input("Enter your name: ")
+ 
+    # The GAME LOOP
+    while True:
+ 
+        # The Game Menu
+        print()
+        print("Let's Play!!!")
+        print("Enter 1 to play Rock-Paper-Scissors")
+        print("Enter 2 for multiplayer")
+        print("Enter 3 to quit")
+        print()
+ 
+        # Try block to handle the player choice 
+        try:
+            choice = int(input("Enter your choice = "))
+        except ValueError:
+            clear()
+            print("Wrong Choice")   
+            continue
+ 
+        # Play the traditional version of the game
+        if choice == 1:
+            rps()
+        
+        elif choice == 2:
+            rps_multiplayer()
+ 
+        # Quit the GAME LOOP    
+        elif choice == 3:
+            break
+ 
+        # Other wrong input
+        else:
+            clear()
+            print("Wrong choice. Read instructions carefully.")
