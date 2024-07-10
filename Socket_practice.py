@@ -20,9 +20,13 @@ def server_program():
         if not data:
             # if data is not received break
             break
+        
         print("from connected user: " + str(data))
+        print("Type, Lets Play! to start the game.")
         data = input(' -> ')
         conn.send(data.encode())  # send data to the client
+        if data == "Lets Play!"
+            play_game(client_socket)            
 
     def play_game(client_socket):
     options = ['rock', 'paper', 'scissors']
@@ -37,7 +41,7 @@ def server_program():
 
         # Server's choice
     import random
-    server_choice = random.choice(options)
+    server_choice = input("Your move: ")
     client_socket.send(f"Server chooses: {server_choice}\n".encode())
 
         # Determine winner
