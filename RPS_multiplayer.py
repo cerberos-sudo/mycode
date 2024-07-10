@@ -107,7 +107,7 @@ def rps_multiplayer():
 
 def play_game(client_socket):
     options = ['rock', 'paper', 'scissors']
-        
+    print(client_choice)    
     while True:
         # Receive player's choice
         client_choice = client_socket.recv(1024).decode().strip().lower()
