@@ -22,6 +22,7 @@ def server_program():
     print("Player 2 connected: " + str(addr2))
 
     conn2.send("You are Player 2. Game starts!\n".encode())
+    conn2.send("You are Player 1. Game starts!\n".encode())
 
     while True:
         # Player 1's turn
