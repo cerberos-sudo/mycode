@@ -15,6 +15,7 @@ def client_program():
         client_socket.send(message.encode())  # send message
         data = client_socket.recv(1024).decode()  # receive response
 
+        if data = "You are Player 2. Game starts!" or 
         print('Received from server: ' + data)  # show in terminal
 
         message = input(" -> ")  # again take input
